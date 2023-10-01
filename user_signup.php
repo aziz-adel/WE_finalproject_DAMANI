@@ -38,7 +38,7 @@
 
         <br><br><br><br><br>
         <h2>تسجيل حساب جديد</h2>
-        <form method="post" action="signup.php">
+        <form method="post" action="user_signup.php">
             <label for="name">الاسم:</label>
             <input type="text" id="username" name="username" required><br><br>
             <label for="phone">رقم الهاتف :</label>
@@ -46,7 +46,7 @@
             <label for="password">كلمة المرور:</label>
             <input type="password" id="password" name="password" required><br><br>
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">تسجيل </button>
-            <p><a href="login.php">تسجيل الدخول</a></p>
+            <p><a href="user_login.php">تسجيل الدخول</a></p>
 
         <?php
 

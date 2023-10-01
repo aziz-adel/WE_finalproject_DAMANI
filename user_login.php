@@ -35,7 +35,7 @@
     
         <br><br><br><br><br>
         <h2>تسجيل الدخول</h2>
-        <form method="post" action="login.php">
+        <form method="post" action="user_login.php">
         <label for="phone">رقم الهاتف:</label>
         <input type="text" id="phone" name="phone" required><br><br>
         <label for="password">كلمة المرور:</label>
@@ -65,7 +65,7 @@
                             session_start();
                             $_SESSION['user_id'] = $user['user_id'];
                             $_SESSION['username'] = $user['username'];
-                            header('Location: index.php');
+                            header('Location: user_dashboard.php');
                             exit();
                         } else {
                             // The password is incorrect, display an error message

@@ -33,7 +33,7 @@
      
             <br><br><br><br><br>
             <h2>تسجيل الدخول المتاجر</h2>
-            <form method="post" action="login_cmp.php">
+            <form method="post" action="store_login.php">
                 <label for="phone">البريد الالكتروني :</label>
                 <input type="text" id="email" name="email" required><br><br>
                 <label for="password">كلمة المرور:</label>
@@ -76,7 +76,7 @@
                         session_start();
                         $_SESSION['store_id'] = $user['store_id'];
                         $_SESSION['username'] = $user['username'];
-                        header('Location: index _cmp.php');
+                        header('Location: store_home.php');
                         ob_flush();
                         exit();
                     } else {
@@ -92,7 +92,7 @@
 
 
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">تسجيل </button>
-                        <p><a href="signup_cmp.php">تسجيل حساب جديد</a></p>
+                        <p><a href="store_signup.php">تسجيل حساب جديد</a></p>
         </form>
 </body>
 </html>
