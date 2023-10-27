@@ -13,6 +13,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
+$searchQuery = '';
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $searchTerm = mysqli_real_escape_string($db, $_GET['search']);
+    $searchQuery = " WHERE name LIKE '%$searchTerm%' OR email LIKE '%$searchTerm%'";
+}
+
 // If an action to verify/unverify a store is triggered
 if(isset($_GET['store_id']) && isset($_GET['action'])) {
     $store_id = mysqli_real_escape_string($db, $_GET['store_id']);
@@ -33,10 +39,21 @@ if(isset($_GET['store_id']) && isset($_GET['action'])) {
     }
 }
 
-// Fetch all stores
-$result = mysqli_query($db, "SELECT store_id, name, email, verified FROM stores");
+// Fetch all stores with search filtering
+$result = mysqli_query($db, "SELECT store_id, name, email, verified FROM stores" . $searchQuery);
 
-echo "<h1>Welcome, " . $_SESSION['username'] . "!</h1>";
+echo '<form action="admin_dashboard.php" method="get">
+    <div class="flex justify-between items-center mb-5">
+        <h1 class="text-3xl font-bold">Welcome, ' . $_SESSION['username'] . '!</h1>
+        <div class="flex items-center">
+            <input type="text" name="search" placeholder="Search..." class="mr-2 p-2 border rounded" value="'.(isset($_GET['search']) ? $_GET['search'] : '').'">
+            <button type="submit" class="flex items-center">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</form>';
+
 echo "<h2>All Stores:</h2>";
 echo "<table border='1'>";
 echo "<tr><th>Store Name</th><th>Email</th><th>Verification Status</th><th>Action</th></tr>";
