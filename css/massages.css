@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 10px;
+}
+.message-container {
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.message-container.unread {
+    background-color: #e7f4ff;
+}
+.mark-read {
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+.mark-read:hover {
+    background-color: #45a049;
+}

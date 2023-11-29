@@ -1,0 +1,138 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    direction: rtl;
+}
+.modal {
+    display: flex;
+    width: 60%;
+    min-width: 700px;
+    height: 60%;
+    min-height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+.login-section, .signup-section {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-section {
+    background: #fff;
+    flex-direction: column;
+}
+.signup-section {
+    background: #f0f0f0;
+}
+.signup-content, .login-content {
+    width: 80%;
+}
+.logo {
+    margin-bottom: 20px;
+}
+.signup {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #4CAF50;
+    color: white;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: #333;
+    font-size: 24px;
+    cursor: pointer;
+}
+.social-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.social {
+    flex-grow: 1;
+    margin: 0 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+}
+.social:first-child, .social:last-child {
+    margin-right: 0;
+    margin-left: 0;
+}
+.admin-btn {
+    background-color: #d9534f; /* Bootstrap 'btn-danger' color */
+}
+.social:hover {
+    opacity: 0.8;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.login-form input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+.login-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #4CAF50;
+    color: white;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.social, .admin-btn {
+display: inline-block;
+padding: 10px;
+margin: 0 5px;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: #ffffff;
+color: #333;
+text-align: center;
+text-decoration: none; /* Remove underline from links */
+cursor: pointer;
+flex-grow: 1;
+}
+
+.admin-btn {
+background-color: #d9534f; /* Bootstrap 'btn-danger' color */
+}
+
+.social:first-child, .social:last-child {
+margin-right: 0;
+margin-left: 0;
+}
+
+.social:hover, .admin-btn:hover {
+opacity: 0.8;
+}
+.s{
+text-decoration: none; 
+color: black;
+}
+

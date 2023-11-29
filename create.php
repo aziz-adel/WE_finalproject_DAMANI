@@ -22,8 +22,6 @@
 
 
 <?php 
-
-
 if (isset($_POST['submit'])) {
     $product = $_POST['product'];
     $user_p = $_POST['phone'];
@@ -66,6 +64,7 @@ if (isset($_POST['submit'])) {
 <head>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+  <link rel="stylesheet" href="css/create.css">
 
 <meta charset="UTF-8">
     <title>الرئيسية</title>
@@ -80,7 +79,7 @@ if (isset($_POST['submit'])) {
   </a>
   <div class="flex md:order-2">
   <div class="flex items-center">
-            <a href="#4" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
+            <a href="store_update.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
             <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
         </div>
   </div>
@@ -146,59 +145,7 @@ if (isset($_POST['submit'])) {
   </fieldset>
 
 </form>
-<style>
- 
-    form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    
-    fieldset {
-      border: none;
-      margin: 0;
-      padding: 0;
-    }
-    
-    legend {
-     font-size: 20px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 10px;
-      color: #333;
-    }
-    
-    input[type="phone"],
-    input[type="text"],
-    input[type="date"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-    
-    input[type="submit"] {
-      background-color: blue;
-      color: #fff;
-      padding: 20px 30px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    
-   
-  </style>
+
 
 </body>
 

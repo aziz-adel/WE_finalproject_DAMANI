@@ -38,7 +38,7 @@
     $message = 'تم تحديث المعلومات بنجاح!';
     if (mysqli_query($db, $sql)) {
         echo "<script>alert('تم تحديث المعلومات بنجاح!');</script>";
-        header('Location: index.php');
+        header('Location: home.php');
         exit();
     } else {
         echo "Error: " . mysqli_error($db);
@@ -55,6 +55,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+        <link rel="stylesheet" href="css/store_update.css">
 
 
     <meta charset="UTF-8">
@@ -88,7 +89,7 @@
   
         <br><br><br><br>
         <h1>تعديل معلومات الحساب</h1>
-        <form method="post" action="update.php">
+        <form method="post" action="user_update.php">
             <label for="name">الاسم:</label>
             <input type="text" id="username" name="username" value="<?php echo $name; ?> "required><br><br>
             <label for="phone">رقم الهاتف :</label>
@@ -96,49 +97,5 @@
             <label for="password">كلمة المرور الجديدة:</label>
             <input type="password" id="password" name="password" value="" required><br><br>
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">حفظ </button>
-          
-
-        <style>
-                    body {
-                    font-family: Arial, sans-serif;
-                    }
-
-                h1 {
-                    text-align: center;
-                    }
-
-                form {
-                    margin: 0 auto;
-                    max-width: 500px;
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                    }
-
-                label {
-                margin: 10px;
-                }
-    
-                input[type="text"], input[type="password"] {
-                    padding: 5px;
-                    font-size: 16px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    }
-
-                input[type="submit"] {
-                    margin: 10px;
-                    padding: 10px 20px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    }
-    
-                input[type="submit"]:hover {
-                    background-color: #45a049;
-                    }
-        </style>
     </body>
 </html>

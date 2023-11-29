@@ -28,13 +28,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
   <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <link rel="stylesheet" href="css/search.css">
+
     <a href="" class="flex items-center">
         <img src="img/logo.png" class="h-8 mr-3" >
         
     </a>
     <div class="flex md:order-2">
     <div class="flex items-center">
-              <a href="update_cmp.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
+              <a href="store_update.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
               <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
           </div>
     </div>
@@ -85,66 +87,10 @@
       </fieldset>
 
     </form>
-    <style>
-          body {
-            margin-left:10px;
-            margin-right:10px;
-          }
-          
-     
-
-      form fieldset input[type="text"],
-      form fieldset input[type="date"],
-      form fieldset input[type="submit"] {
-        display: inline-block;
-        width: 200px;
-        margin-bottom: 10px;
-      }
-          input[type="text"],
-          input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-          }
-          
-          input[type="submit"] {
-            background-color: red;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-          }
-          
-          input[type="submit"]:hover {
-            background-color: blue;
-          }
-          
-          table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-            background-color: white;
-          }
-          
-          th, td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-          }
-          
-          th {
-            background-color: gray;
-            color: black;
-          }
-    </style>
+    
     <?php if(isset($_SESSION['store_id'])) { ?>
       <?php
-        // Start the session
+       
 
 
         // Define database connection variables
@@ -184,7 +130,7 @@
                         <th scope="col" class="px-6 py-3">اسم المنتح</th>
                         <th  scope="col" class="px-6 py-3">تاريخ البداية</th>
                         <th  scope="col" class="px-6 py-3">تاريخ الانتهاء</th>
-                        <th scope="col" class="px-6 py-3">تعديل</th></tr>
+                        
                         <?php while ($row = $result->fetch_assoc()) {?>
                           <tr>
                           <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -194,7 +140,7 @@
                             <td class="px-6 py-4"><?php echo $row['product']; ?></td>
                             <td class="px-6 py-4"><?php echo $row['start_date']; ?></td>
                             <td class="px-6 py-4"><?php echo $row['expiry_date']; ?></td>
-                            <td class="px-6 py-4 text-red-700"><a href="edit_warranty.php?id=<?php echo $row['warranty_id']; ?>">تعديل</a></td>
+                           
                         </tr></table>
                     <?php } ?>   <?php          
         

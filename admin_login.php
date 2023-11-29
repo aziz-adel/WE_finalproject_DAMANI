@@ -1,136 +1,77 @@
-<?php
-// Database connection
-$db = mysqli_connect('localhost','root', '', 'd-project');
-if(!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Initialize error message
-$errorMsg = "";
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $password = $_POST['password'];
-
-    // Fetch password from database and verify
-    $query = "SELECT password FROM admin WHERE username='$username'";
-    $result = mysqli_query($db, $query);
-    
-    if ($result && mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
-        if (password_verify($password, $row['password'])) {
-            session_start();
-            $_SESSION['loggedin'] = true;
-            $_SESSION['username'] = $username;
-            header("Location: admin_dashboard.php");
-        } else {
-            $errorMsg = "Incorrect password!";
-        }
-    } else {
-        $errorMsg = "Username not found!";
-    }   
-}
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-        }
+    <link rel="stylesheet" href="css/admin_login.css">
 
-        .container {
-            max-width: 400px;
-            margin: 100px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px 2px #888888;
-        }
-
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        input[type="submit"] {
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #555;
-        }
-
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .register-link a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title> تسجيل الدخول للإدارة</title>
+  
 </head>
 <body>
-    <div class="container">
-        <h2>Admin Login</h2>
-        <?php if (!empty($errorMsg)) { ?>
-            <p class="error-message"><?php echo $errorMsg; ?></p>
-        <?php } ?>
-        <form action="admin_login.php" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
-            <input type="submit" value="Login">
-        </form>
+    <?php
+    // Database connection
+    $db = mysqli_connect('localhost','root', '', 'd-project');
+    if(!$db) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    //  error message
+    $errorMsg = "";
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $username = mysqli_real_escape_string($db, $_POST['username']);
+        $password = $_POST['password'];
+
+        // Fetch password from database and verify
+        $query = "SELECT password FROM admin WHERE username='$username'";
+        $result = mysqli_query($db, $query);
         
-      
-    
+        if ($result && mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+            if (password_verify($password, $row['password'])) {
+                session_start();
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $username;
+                header("Location: admin_dashboard.php");
+                exit;
+            } else {
+                $errorMsg = "كلمة المرور غير صحيحة!";
+            }
+        } else {
+            $errorMsg = "اسم المستخدم غير موجود!";
+        }   
+    }
+    ?>
+    <div class="modal">
+        <div class="signup-section">
+            <button class="close"><a href="home.php" class="s" >X</a></button>
+            <div class="signup-content">
+                <img src="img/logo.png" class="logo" alt="لوغو">
+                
+                
+            </div>
+        </div>
+        <div class="login-section">
+            <div class="login-content">
+                <h1>تسجيل الدخول إلى حسابك</h1>
+                <p>حدد نوع التسجيل:</p>
+                <div class="social-buttons">
+            <a href="user_login.php" class="social">أفراد</a>
+            <a href="store_login.php" class="social">المتاجر</a>
+            <a href="admin_login.php" class="social admin-btn">أدارة</a>
+                 </div>
+
+                <?php if (!empty($errorMsg)) { ?>
+                    <p class="error-message"><?php echo $errorMsg; ?></p>
+                <?php } ?>
+                <form class="login-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <input type="text" name="username" placeholder="اسم المستخدم" required>
+                    <input type="password" name="password" placeholder="كلمة المرور" required>
+                    <button type="submit" class="login-btn">تسجيل الدخول</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

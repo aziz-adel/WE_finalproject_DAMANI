@@ -90,24 +90,72 @@
 <section id="conntact">
         <h2>اتصل بنا</h2>
     <div class="container">
-  
-  <form style="width: 800px;">
+      
+    <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $db = new mysqli('localhost', 'root', '', 'd-project');
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    }
+
+    $stmt = $db->prepare("INSERT INTO messages (name, phone_number, email, subject, message) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $phone_number, $email, $subject, $message);
+
+    $name = $db->real_escape_string($_POST['name']);
+    $phone_number = $db->real_escape_string($_POST['phone']);
+    $email = $db->real_escape_string($_POST['email']);
+    $subject = $db->real_escape_string($_POST['subject']);
+    $message = $db->real_escape_string($_POST['message']);
+
+    if ($stmt->execute()) {
+      echo "<script>alert('Message sent successfully');</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $db->close();
+}
+?>
+    <form action="home.php" method="post" style="width: 800px;">
     <div style="margin-bottom: 10px;">
-      <label for="name" style="display: block;">الاسم:</label>
-      <input type="text" id="name" name="name" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+        <label for="name" style="display: block;">الاسم</label>
+        <input type="text" id="name" name="name" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
     </div>
     <div style="margin-bottom: 10px;">
-      <label for="email" style="display: block;">البريد الإلكتروني:</label>
-      <input type="email" id="email" name="email" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+        <label for="phone" style="display: block;">رقم الهاتف</label>
+        <input type="phone" id="phone" name="phone" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
     </div>
     <div style="margin-bottom: 10px;">
-      <label for="message" style="display: block;">الرسالة:</label>
-      <textarea id="message" name="message" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%; height: 100px;"></textarea>
-      </section>
+        <label for="email" style="display: block;">البريد الإلكتروني</label>
+        <input type="email" id="email" name="email" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="text" style="display: block;">الموضوع</label>
+        <input type="text" id="text" name="subject" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label for="message" style="display: block;">الرسالة</label>
+        <textarea id="message" name="message" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc; width: 100%; height: 100px;"></textarea>
+    </div>
+    <button type="submit" >أرسل </button>
 </form>
+</section> 
 </div>
 
-   <section></section>
+<footer>
+    <div class="footer-container">
+        
+        <div class="footer-section">
+            <h3>روابط سريعة</h3>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#servec">خدماتنا</a></li>
+                <li><a href="#contact">اتصل بنا</a></li>
+            </ul>
+        </div>
+</footer>
   
 </body>
 </html>

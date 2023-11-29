@@ -21,6 +21,8 @@
   <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+      <link rel="stylesheet" href="css/view.css">
+
 
     <meta charset="UTF-8">
         <title>عرض</title>
@@ -35,7 +37,7 @@
       </a>
       <div class="flex md:order-2">
       <div class="flex items-center">
-                <a href="update_cmp.php"class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
+                <a href="store_update.php"class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
                 <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
             </div>
       </div>
@@ -59,63 +61,7 @@
     </nav>   
 
     <br><br><br><br>
-    <style>
-          body {
-            margin-left:10px;
-            margin-right:10px;
-          }
-          
-     
-
-      form fieldset input[type="text"],
-      form fieldset input[type="date"],
-      form fieldset input[type="submit"] {
-        display: inline-block;
-        width: 200px;
-        margin-bottom: 10px;
-      }
-          input[type="text"],
-          input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-          }
-          
-          input[type="submit"] {
-            background-color: red;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-          }
-          
-          input[type="submit"]:hover {
-            background-color: blue;
-          }
-          
-          table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-            background-color: white;
-          }
-          
-          th, td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-          }
-          
-          th {
-            background-color: gray;
-            color: black;
-          }
-    </style>
+  
 
     <?php if(isset($_SESSION['store_id'])) { ?>
             <?php
@@ -137,7 +83,6 @@
                         <th scope="col" class="px-6 py-3">اسم المنتح</th>
                         <th  scope="col" class="px-6 py-3">تاريخ البداية</th>
                         <th  scope="col" class="px-6 py-3">تاريخ الانتهاء</th>
-                        <th scope="col" class="px-6 py-3">تعديل</th>
                     </tr>
                     <?php while($row = mysqli_fetch_assoc($result)) { ?>
                         <tr>
@@ -145,7 +90,6 @@
                             <td class="px-6 py-4"><?php echo $row['product']; ?></td>
                             <td class="px-6 py-4"><?php echo $row['start_date']; ?></td>
                             <td class="px-6 py-4"><?php echo $row['expiry_date']; ?></td>
-                            <td class="px-6 py-4 text-red-700"><a href="edit_warranty.php?id=<?php echo $row['warranty_id']; ?>">تعديل</a></td>
                         </tr>
                     <?php } ?>
                 </table>
