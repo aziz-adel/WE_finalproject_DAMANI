@@ -1,62 +1,66 @@
 <?php
-   //session part
-    session_start();
-    if(!isset($_SESSION['store_id'])) {
-        header('Location: login_cmp.php');
-        exit();
-    }
+// Start the session
+session_start();
+if (!isset($_SESSION['store_id'])) {
+    header('Location: login_cmp.php');
+    exit();
+}
 
-  
-    $db = mysqli_connect('localhost','root', '', 'd-project');
+// Database connection
+$db = mysqli_connect('localhost', 'root', '', 'd-project');
+$stmt = mysqli_prepare($db, "SELECT * FROM stores WHERE store_id = ?");
+mysqli_stmt_bind_param($stmt, "i", $_SESSION['store_id']);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
+mysqli_close($db);
 
-    $stmt = mysqli_prepare($db,"SELECT * FROM stores WHERE store_id = ?");
-    mysqli_stmt_bind_param($stmt, "i", $_SESSION['store_id']);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
-    mysqli_close($db);
-?>
+// Generate today's date for default start date
+$today_date = date('Y-m-d');
 
+// Initialize message variable
+$message = '';
 
-
-
-
-<?php 
+// Form processing
 if (isset($_POST['submit'])) {
     $product = $_POST['product'];
     $user_p = $_POST['phone'];
     $start_date = $_POST['start_date'];
-    $expiry_date = $_POST['expiry_date'];
+    $manual_expiry_date = $_POST['manual_expiry_date'];
     $store_id = $_SESSION['store_id'];
-    
-    // Establish a database connection
+
+    // Determine expiry date
+    if (!empty($manual_expiry_date)) {
+        $expiry_date = $manual_expiry_date;
+    } else {
+        $warranty_period = $_POST['warranty_period'];
+        $expiry_date = date('Y-m-d', strtotime($start_date . ' + ' . $warranty_period));
+    }
+
+    // Re-establish database connection
     $db = mysqli_connect('localhost', 'root', '', 'd-project');
-    
-    // Prepare a statement to select the user ID from the users table using the provided phone number
+
+    // Prepare and execute user ID query
     $user_id_stmt = mysqli_prepare($db, "SELECT user_id FROM users WHERE phone = ?");
     mysqli_stmt_bind_param($user_id_stmt, "s", $user_p);
     mysqli_stmt_execute($user_id_stmt);
     mysqli_stmt_bind_result($user_id_stmt, $user_id);
     mysqli_stmt_fetch($user_id_stmt);
     mysqli_stmt_close($user_id_stmt);
-    
-    // Prepare a statement to insert a new warranty record into the warranty table
+
+    // Prepare and execute warranty insert
     $warranty_stmt = mysqli_prepare($db, "INSERT INTO warranty (product, start_date, expiry_date, user_id, store_id) VALUES (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($warranty_stmt, "ssssi", $product, $start_date, $expiry_date, $user_id,$store_id);
+    mysqli_stmt_bind_param($warranty_stmt, "ssssi", $product, $start_date, $expiry_date, $user_id, $store_id);
     mysqli_stmt_execute($warranty_stmt);
-    
-    // Check if the warranty record was successfully inserted
+
     if (mysqli_affected_rows($db) > 0) {
-        echo "New warranty record created successfully.";
+        $message = 'تم اصدار الضمان بنجاح';
     } else {
-        echo "Error inserting warranty record: " . mysqli_error($db);
+        $message = 'خطأ في النظام';
     }
-    
-    // Close the database connection
+
     mysqli_close($db);
 }
-
-?>
 ?>
 
 <!DOCTYPE html>
@@ -67,12 +71,8 @@ if (isset($_POST['submit'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <link rel="stylesheet" href="css/create.css">
-
-<meta charset="UTF-8">
-    <title>الرئيسية</title>
 </head>
 <body>
- 
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <a href="" class="flex items-center">
@@ -104,52 +104,37 @@ if (isset($_POST['submit'])) {
   </div>
   </div>
 </nav>   
-
-
-
-
-</body>
-
-</html>
-
-
 <br><br><br>
+<script>
+        // Check if a message is set and display it
+        window.onload = function() {
+            <?php if (!empty($message)): ?>
+                alert('<?php echo $message; ?>');
+            <?php endif; ?>
+        };
+    </script>
 <form action="" method="POST">
+        <fieldset>
+            <h3>اضافة ضمان</h3>
+            رقم الهاتف:<br>
+            <input type="text" name="phone"><br>
+            المنتج:<br>
+            <input type="text" name="product"><br>
+            تاريخ الشراء:<br>
+            <input type="date" name="start_date" value="<?php echo $today_date; ?>"><br>
 
-  <fieldset>
+            مدة الضمان:<br>
+            <select name="warranty_period" id="warranty_period">
+                <option value="1 year">1 سنة</option>
+                <option value="2 years">2 سنوات</option>
+                <option value="5 years">5 سنوات</option>
+            </select><br>
 
-    <h3>اضافة ضمان</h3>
+            أو أدخل تاريخ انتهاء الصلاحية يدويًا:<br>
+            <input type="date" name="manual_expiry_date"><br>
 
-  رقم الهاتف:<br>
-
-    <input type="text" name="phone">
-
-    المنتج:<br>
-
-<input type="text" name="product">
-
-
-    تاريخ الشراء:<br>
-
-    <input type="date" name="start_date">
-
-    <br>
-
-   تاريخ الانتهاء:<br>
-
-    <input type="date" name="expiry_date">
-
-    
-
-    <br><br>
-
-    <input type="submit" name="submit" value="اضافة الضمات">
-
-  </fieldset>
-
-</form>
-
-
+            <input type="submit" name="submit" value="اضافة الضمانات">
+        </fieldset>
+    </form>
 </body>
-
 </html>

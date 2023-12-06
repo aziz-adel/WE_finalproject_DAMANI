@@ -1,61 +1,83 @@
 <?php
- 
     session_start();
     if (!isset($_SESSION['user_id'])) {
-    header('Location:login.php');
-    exit();
+        header('Location: login.php');
+        exit();
     }
 
     $db = mysqli_connect('localhost', 'root', '', 'd-project');
-    $stmt = mysqli_prepare($db, "SELECT * FROM users WHERE user_id = ?");
-    mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    }
+
     $user_id = $_SESSION['user_id'];
 
- 
-    $sql = "SELECT * FROM users WHERE user_id = $user_id";
-    $result = mysqli_query($db, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['username'];
-    $phone = $row['phone'];
+    // Initialize variables
+    $name = '';
+    $phone = '';
+
+    // Fetch user data
+    $stmt = mysqli_prepare($db, "SELECT * FROM users WHERE user_id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $name = $row['username'];
+        $phone = $row['phone'];
+    }
+    mysqli_stmt_close($stmt);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
-    $name = $_POST['username'];
-    $phone = $_POST['phone'];
-    $password = $_POST['password'];
+        $name = $_POST['username'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
 
+        if (!empty($password)) {
+            if (strlen($password) >= 8) {
+                $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                $update_sql = "UPDATE users SET username = ?, phone = ?, password = ? WHERE user_id = ?";
+                $update_stmt = mysqli_prepare($db, $update_sql);
+                mysqli_stmt_bind_param($update_stmt, "sssi", $name, $phone, $password_hash, $user_id);
 
-    if (!empty($password)) {
-     
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET username = '$name', phone = '$phone', password = '$password_hash' WHERE user_id = $user_id";
-    } else {
-        $sql = "UPDATE users SET username = '$name', phone = '$phone' WHERE user_id = $user_id";
+                if (mysqli_stmt_execute($update_stmt)) {
+                    echo "<script>alert('تم تحديث المعلومات بنجاح!'); window.location.href='home.php';</script>";
+                    exit();
+                } else {
+                    echo "<script>alert('Error: " . mysqli_error($db) . "');</script>";
+                }
+                mysqli_stmt_close($update_stmt);
+            } else {
+                echo "<script>alert('كلمة المرور يجب أن تكون على الأقل 8 أحرف');</script>";
+            }
+        } else {
+            $update_sql = "UPDATE users SET username = ?, phone = ? WHERE user_id = ?";
+            $update_stmt = mysqli_prepare($db, $update_sql);
+            mysqli_stmt_bind_param($update_stmt, "ssi", $name, $phone, $user_id);
+
+            if (mysqli_stmt_execute($update_stmt)) {
+                echo "<script>alert('تم تحديث المعلومات بنجاح!'); window.location.href='home.php';</script>";
+                exit();
+            } else {
+                echo "<script>alert('Error: " . mysqli_error($db) . "');</script>";
+            }
+            mysqli_stmt_close($update_stmt);
+        }
     }
-    $message = 'تم تحديث المعلومات بنجاح!';
-    if (mysqli_query($db, $sql)) {
-        echo "<script>alert('تم تحديث المعلومات بنجاح!');</script>";
-        header('Location: home.php');
-        exit();
-    } else {
-        echo "Error: " . mysqli_error($db);
-    }
-}
+
+    mysqli_close($db);
 ?>
+
+
 <!DOCTYPE html>
     <html dir="rtl" lang="ar">
     <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-    <link rel="stylesheet" href="css/login_signin.css">
+    
+     
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-        <link rel="stylesheet" href="css/store_update.css">
+        <link rel="stylesheet" href="css/create.css">
 
 
     <meta charset="UTF-8">
@@ -71,7 +93,6 @@
     </a>
     <div class="flex md:order-2">
     <div class="flex items-center">
-                <a href="update.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['username']; ?></h2></a><li></li>
                 <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
             </div>
     </div>
@@ -86,16 +107,19 @@
     </div>
     </nav>   
     <body>
-  
+ 
         <br><br><br><br>
-        <h1>تعديل معلومات الحساب</h1>
+        
         <form method="post" action="user_update.php">
+        <h1>تعديل معلومات الحساب</h1>
+        <br>
             <label for="name">الاسم:</label>
             <input type="text" id="username" name="username" value="<?php echo $name; ?> "required><br><br>
-            <label for="phone">رقم الهاتف :</label>
+            <label for="phone">رقم الهاتف :</label><br>
             <input type="phone" id="phone" name="phone" value="<?php echo $phone ?>" required><br><br>
-            <label for="password">كلمة المرور الجديدة:</label>
+            <label for="password">كلمة المرور الجديدة:</label><br>
             <input type="password" id="password" name="password" value="" required><br><br>
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">حفظ </button>
-    </body>
+</form> 
+        </body>
 </html>

@@ -78,8 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<div class="back-icon" onclick="window.history.back();"></div>
-<a href="user_dashboard.php" class="back-to-dashboard"><i class="fas fa-arrow-right">الصفحة الرئيسة</i></a>
+
+<div class="back-icon" onclick="window.history.back();">
+    <i class="fas fa-arrow-right">العودة</i>
+</div>
 
 <div class="form-container">
     
