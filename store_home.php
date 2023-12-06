@@ -21,6 +21,8 @@
 <head>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
   <meta charset="UTF-8">
       <title>الرئيسية</title>
@@ -36,7 +38,8 @@
   <div class="flex md:order-2">
   <div class="flex items-center">
             <a href="store_update.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><?php echo $user['name']; ?></h2></a>
-            <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
+            <li>
+            <a href="admin_logout.php" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
         </div>
   </div>
   <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
@@ -57,28 +60,27 @@
   </div>
   </div>
 </nav>   
-<br><br><br><br>
-<h1>مرحبا بكم متجر <?php echo $user['name']; ?></h1>
-<h2>سنخبركم عن طريقة استخدام النظام كالاتي :</h2>
-<h3>صفحة  عرض البيانات :</h3>
-<p>تمكنكم من عرض جميع الضمانات المسجلة لديكم</p><br>
-<h3>صفحة البحث :</h3>
-<p>تمكنكم من البحث عن ضمان معين عن طريق المنتج او رقم هاتف العميل او تاريخ الانتهاء</p><br>
-<h3>صفحة اضافة:</h3>
-<p>تمكنكم من اضافة ضمان جديد للعملاء المسجلين في النظام 
-يمكنكم تعديل معلومات الحساب بالضغط على اسم المتجر</p><br>
-<h3>تعديل معلومات الحساب :</h3>
-<p>مكنكم تعديل معلومات الحساب بالضغط على اسم المتجر</p><br>
+<br><br><br>
+
+<img class="grf" src="img/grf.png">
 
 <h3>في حال حدوث اي خلل في النظام يمكنكم التواصل عن طريق الصفحة الرئيسية بالظغط على اتصل بنا او مراسلتنا على admin@admin.com</h3>
-<h3></h3>
-
+<h3>او التواصل مع     <a href="support.php" class="mr-6 text-sm  text-blue-500 dark:text-white hover:underline"><h1>التواصل مع الدعم الفني </h1></a>
+</h3>
+<br><br><br><br><br><br>
 <p></p>
 <p></p>
 <style>
   body{
     margin-right:10px;
   }
+
+  .grf {
+  display: block; 
+  margin: 0 auto; 
+  max-width: 80%; 
+  height: auto; 
+}
 </style>
 </body>
 </html>

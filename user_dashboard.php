@@ -46,6 +46,7 @@ mysqli_close($db);
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/user_dashboard.css">
     <meta charset="UTF-8">
     <title>الرئيسية</title>
@@ -57,15 +58,22 @@ mysqli_close($db);
       <img src="img/logo.png" class="h-8 mr-3" >
       
   </a>
+
   <div class="flex md:order-2">
   <div class="flex items-center">
-
+  
+  <a href="support.php" class="mr-6 text-sm  text-blue-500 dark:text-white hover:underline"><h1>الدعم الفني </h1></a>
+  
             <a href="user_update.php" class="mr-6 text-sm  text-gray-500 dark:text-white hover:underline"><h1><?php echo $user['username']; ?></h1></a>
-            <a href="logout.php" class="text-sm  text-blue-600 dark:text-blue-500 hover:underline">تسجيل خروج</a>
+            <li>
+           <a href="admin_logout.php" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
         </div>
     </nav>
 
-    <br><br><br><br><br><br>
+    <br><br><br>
+
+    <br><br><br>
+    
     <form action="user_dashboard.php" method="POST">
         <fieldset>
             <label for="phone">المتجر:</label>
